@@ -1,0 +1,282 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+  </head>
+<head>
+<title>Keyboard input</title>
+</head>
+<style>
+
+  
+
+</style>
+
+<body>
+
+<div class="container6">
+<p>
+	<canvas  align = 'middle' id="canvas" width="500" height="350"></canvas>
+</p>
+<p>
+<a align = 'center' href='меню.html' class='button'> <big> <strong> меню </big> </strong> </a>
+</p>	
+</div>	
+
+
+
+<script src="hunter.js"></script>
+<script src="jquery-3.4.1.min.js"></script>
+<script>
+
+
+
+
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var width = canvas.width;
+var height = canvas.height;
+
+var circle = function (x, y, radius, fillCircle,acolor) {
+ctx.beginPath();
+ctx.fillStyle =acolor;
+ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+if (fillCircle) {
+ctx.fill();
+} else {
+ctx.stroke();
+}
+};
+
+var colors=['red','blue','yellow','green','pink'];
+
+// Конструктор Ball
+var Ball = function (mycolor) {
+	this.x = getRandomInt(width);
+	this.y = getRandomInt(height);
+	this.xSpeed = 0;
+	this.ySpeed = 0;
+	if(mycolor=="random"){
+		mycolor=colors[getRandomInt(colors.length)];
+	}
+	this.color = mycolor; 
+};
+
+	
+
+// Обновляем позицию мяча соответственно его скорости
+Ball.prototype.move = function () {
+	this.x += this.xSpeed;
+	this.y += this.ySpeed;
+	if (this.x < 0) {
+	this.x = width;
+	} else if (this.x > width) {
+	this.x = 0;
+	} else if (this.y < 0) {
+	this.y = height;
+	} else if (this.y > height) {
+	this.y = 0;
+	}
+};
+
+// Рисуем мяч в его текущей позиции
+Ball.prototype.draw = function () {
+circle(this.x, this.y, 10, true,this.color);
+};
+
+// Задаем направление движения по строке с названием действия
+Ball.prototype.setDirection = function (direction) {
+if (direction === "up") {
+this.xSpeed = 0;
+this.ySpeed = -5;
+} else if (direction === "down") {
+this.xSpeed = 0;
+this.ySpeed = 5;
+} else if (direction === "left") {
+this.xSpeed = -5;
+this.ySpeed = 0;
+} else if (direction === "right") {
+this.xSpeed = 5;
+this.ySpeed = 0;
+} else if (direction === "stop") {
+this.xSpeed = 0;
+this.ySpeed = 0;
+}
+};
+
+// Задаем направление движения по строке с названием действия
+Ball.prototype.setDirection = function (direction) {
+if (direction === "up") {
+this.xSpeed = 0;
+this.ySpeed = -5;
+} else if (direction === "down") {
+this.xSpeed = 0;
+this.ySpeed = 5;
+} else if (direction === "left") {
+this.xSpeed = -5;
+this.ySpeed = 0;
+} else if (direction === "right") {
+this.xSpeed = 5;
+this.ySpeed = 0;
+} else if (direction === "stop") {
+this.xSpeed = 0;
+this.ySpeed = 0;
+}
+};
+
+
+Ball.prototype.randomDirection = function () {
+this.xSpeed = -5+getRandomInt(10);
+this.ySpeed = -5+getRandomInt(10);
+};
+
+// Создаем объект-мяч
+var ball = new Ball("black");
+var ball2 = new Ball("red");//
+var hunters = [];
+
+var createHunter=function(){
+	for(var i = 0; i < 15; i++) {
+		hunters.push(new Hunter("Orange"));
+	}
+}
+
+createHunter();
+
+var score= 0;
+var life = 5;
+
+var a = "game over"
+
+var balls = [];
+
+var createBalls=function(){
+	for(var i = 0; i < 5; i++) {
+		balls.push(new Ball("random"));
+	}
+}
+
+createBalls();
+
+
+
+
+// Объект для перевода кодов клавиш в названия действий
+var keyActions = {
+12: "stop", // остановка
+37: "left", // влево
+38: "up", // вверх
+39: "right",// вправо
+40: "down" // вниз
+
+
+};
+var keyActions2 = {
+32: "stop", // остановка
+65: "left", // влево
+87: "up", // вверх
+68: "right",// вправо
+83: "down" // вниз
+};
+var keyActions3 = {
+32: "stop", // остановка
+37: "left", // влево
+38: "up", // вверх
+39: "right",// вправо
+12: "down" // вниз
+}
+
+
+//---------------------------------
+// Обработчик события keydown, будет вызван при каждом нажатии
+// клавиши
+$("body").keydown(function (event) {
+var direction = keyActions2[event.keyCode];
+ball.setDirection(direction);
+
+for(var i=hunters.length-1;i>0;i--){
+	if (Math.abs(hunters[i].x-ball.x)<25){
+		if (Math.abs(hunters[i].y-ball.y)<25){
+			//balls.splice(i, 1); 			
+			life--;
+			var shot2 = document.getElementById("life");
+				shot2.innerHTML=life;
+			}
+
+}   }
+
+for(var i=balls.length-1;i>=0;i--){
+	if (Math.abs(balls[i].x-ball.x)<25){
+		if (Math.abs(balls[i].y-ball.y)<25){
+			balls.splice(i, 1); 			
+			score++;
+			var shot =document.getElementById("score");
+			shot.innerHTML=score;			
+		}
+	
+	}
+}
+
+if(balls.length==0)
+	createBalls();
+});
+
+
+
+
+// Функция анимации, вызывается раз в 30 мс
+setInterval(
+function () {
+ctx.clearRect(0, 0, width, height);
+ball.draw();
+ball.move();
+for(var i = 0; i < balls.length; i++ ) {
+	balls[i].draw();
+	balls[i].randomDirection();
+	balls[i].move();
+}
+//hunter.move();
+for(var i = 0; i < hunters.length; i++ ) {
+	hunters[i].draw();
+	hunters[i].move();
+}
+
+				if (life<=0){
+					Ball.prototype.draw = function () {
+                    circle(this.x, this.y, 0, false,this.color);
+					};
+					Hunter.prototype.draw = function () {
+					ctx.fillStyle = "Orange";
+					ctx.fillRect(this.x, this.y, 0, 0,false);
+					};
+					
+
+					
+
+					
+					
+					
+					ctx.font = "85px serif";
+					ctx.fillStyle = 'black';
+                    ctx.fillText("SCORE=" + ""+ score, 90, 230);
+					ctx.fillText( a, 90, 150);
+					
+					
+
+                     
+				}
+
+                 
+
+ctx.strokeRect(0, 0, width, height);
+}, 30);
+
+
+
+</script>
+<h1 align = 'center'> <big> <strong> score: </strong> </big> </h1>
+<h1 id='score' align = 'center'> <big> <strong> </strong> </big> </h1>
+<h1 align = 'center'> <big> <strong> life: </strong> </big> </h1>
+<h1 id='life' align = 'center' > <big> <strong> </strong> </big> </h1>
+</body>
+</html>
