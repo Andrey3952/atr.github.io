@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html><head>
+    <title>Canvas</title>
+</head>
+
+<body>
+<canvas id="canvas" width="1000" height="800"></canvas>
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.strokeStyle = "Turquoise";
+ctx.lineWidth = 4; 
+ctx.beginPath();
+
+ctx.lineTo(80, 160);//shea
+ctx.lineTo(50, 220); //lev noga
+ctx.stroke();
+
+
+
+    </script>
+</body>
+</html>

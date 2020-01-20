@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html><head>
+    <title>Canvas</title>
+</head>
+
+<body>
+<canvas id="canvas" width="1000" height="800"></canvas>
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+
+
+ctx.beginPath();
+ctx.lineWidth = 8; 
+ctx.strokeStyle = "blue"; 
+ctx.moveTo(100, 60);//verg golovi 
+ctx.lineTo(60, 60);//verg golovi 
+ctx.moveTo(100, 60);//pravo golovi  
+ctx.lineTo(100, 100);//pravo golovi
+ctx.moveTo(60, 100);//levo golovi 
+ctx.lineTo(60, 60); //levo golovi
+ctx.moveTo(60, 100);//niz golovi  
+ctx.lineTo(100, 100)//niz golovi;  
+
+//ctx.strokeStyle = " #d610bd ";
+ctx.moveTo(80, 100);//shea 
+ctx.lineTo(80, 160);//shea 
+
+//ctx.strokeStyle = "  #10d6d6   "; 
+ctx.lineTo(80, 160);//lev noga
+ctx.lineTo(50, 220); //lev noga
+ctx.moveTo(80, 160);//pravo noga
+ctx.lineTo(110, 220); //pravo noga
+
+ctx.strokeStyle = "red"; 
+ctx.moveTo(80, 120);//levo ryka 
+ctx.lineTo(50, 100);//levo ryka 
+ctx.moveTo(80, 120);//pravo ryka 
+ctx.lineTo(110, 100);//pravo ryka 
+
+ctx.stroke();
+
+
+
+    </script>
+</body>
+</html>

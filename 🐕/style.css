@@ -1,0 +1,28 @@
+body {
+  background:         #eb984e      ;
+}
+h1 {
+  color:           #641e16     ;  
+    background:     #eb984e  
+
+   ;
+	//padding:15px;
+}
+
+img{
+	border-radius: 15px;
+}
+
+ .button {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+ background-color:    #eb984e  ; /*  #eb984e */
+ padding:10px;
+ 
+  }
+
+.button:hover {
+  background-color:      #d68910    ; /*  #8c4ccc  */
+  color:   #b471df    ;
+}
+    
